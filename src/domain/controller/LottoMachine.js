@@ -43,7 +43,7 @@ class LottoMachine {
       this.#generateLottos(this.#machineInput.money.getAmount());
       this.#showLottos();
     } catch (error) {
-      printErrorAndRetry(error, () => this.readMoney());
+      this.#printErrorAndRetry(error, () => this.readMoney());
     }
   }
 
@@ -57,7 +57,7 @@ class LottoMachine {
         .map((winningNumber) => Number(winningNumber));
       this.#machineInput.winning.setWinningNumbers(winningNumbers);
     } catch (error) {
-      printErrorAndRetry(error, () => this.readWinningNumbers());
+      this.#printErrorAndRetry(error, () => this.readWinningNumbers());
     }
   }
 
@@ -72,7 +72,7 @@ class LottoMachine {
       benefit.calculateRate(this.#machineInput.money.getAmount(), ranks);
       this.#showResult(benefit, ranks);
     } catch (error) {
-      printErrorAndRetry(error, () => this.readBonusNumber());
+      this.#printErrorAndRetry(error, () => this.readBonusNumber());
     }
   }
 
@@ -83,7 +83,7 @@ class LottoMachine {
       );
       this.#checkRetryOption(userCommand);
     } catch (error) {
-      printErrorAndRetry(error, () => this.readRetryOption());
+      this.#printErrorAndRetry(error, () => this.readRetryOption());
     }
   }
 
@@ -183,6 +183,11 @@ class LottoMachine {
 
   #quit() {
     Console.quit();
+  }
+
+  #printErrorAndRetry(error, retry) {
+    Console.print(error.message);
+    retry();
   }
 }
 
